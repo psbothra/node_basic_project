@@ -1,0 +1,59 @@
+<!-- views/index.ejs -->
+<!doctype html>
+<html>
+<head>
+    <title>Product List</title>
+    <link rel="stylesheet" href="stylesheets/style.css">
+  
+  
+</head>
+<body>
+    <div class="product-container col-12  col-m-12">
+        <div class="product-details">
+            <div class="col-3  col-m-12"><img id="productImg"  class="product-image"/></div>
+             <div class="col-6  col-m-12">
+             <div id="productDesc"> </div>
+             <ul><li><div id="productDescBullets"></div></li></ul>
+             </div>
+           <div class="col-3 col-m-12">
+            <div class="dollar-sign">$ </div> <div id="productPrice"> </div>
+            <button class="view-btn" onClick="priceDetail()">View More</button></div>
+        </div> 
+    </div>
+    
+    <div class="clearfix"></div>
+    <div class="container col-12 col-m-12">
+        <% productLists.forEach(function(productList){ %>
+        <div class="col-3 col-m-12 product-tile" onClick="clickProd(<%= JSON.stringify(productList) %>)" >
+            <div class="col-12 col-m-6">
+                <div class="product-tile-image "> <img src="<%= productList.imageUrls.sm %>" /> </div>
+            </div>
+            <div class="col-m-6">
+            <div class="product-tile-desc"> <%= productList.description %></div>
+                <div class="product-tile-price">  $ <%= productList.pricing.price.selling %></div>
+                
+                <div class="product-tile-view col-m-6">VIEW MORE</div>
+                </div>
+            </div>
+        <% })%>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script>
+        function clickProd(product) {
+            $('.product-container').show();
+            $('#productImg')[0].src = product.imageUrls['lg'];
+            var bullets = product.marketingBullets;
+            var marketingBullets = bullets.toString().replace(/,/g , "</li><li>");
+            $('#productDescBullets')[0].innerHTML = marketingBullets;
+            $('#productPrice')[0].textContent = product.pricing.price.selling;
+            $('#productDesc')[0].textContent = product.description;
+        } 
+        function priceDetail(){
+            var price = $('#productPrice')[0].innerHTML;
+            alert("Price of the item is $" + price);
+        }
+  </script>
+</body>
+</html>
